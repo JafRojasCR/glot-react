@@ -1,16 +1,13 @@
 // src/Inicio.js
 import React from "react";
-
+import Logo from "./img/GLOT Logo.png";
+import LogoWhite from "./img/GLOT Logo White.png";
 function Inicio({ isLoggedIn, onLogout }) {
   return (
     <div className="bg-gray-50 text-gray-800 comfortaa min-h-screen">
       <nav className="flex items-center justify-between px-6 py-4 border-b w-full">
         <div className="flex items-center space-x-2">
-          <img
-            src="./img/GLOT Logo.png"
-            alt="G/LOT Logo"
-            className="h-10 w-auto"
-          />
+          <img src={Logo} alt="G/LOT Logo" className="h-10 w-auto" />
         </div>
         <div className="flex space-x-8 text-lg">
           <a
@@ -62,7 +59,7 @@ function Inicio({ isLoggedIn, onLogout }) {
         </div>
         <div className="mt-8 md:mt-0 md:w-1/2 flex justify-center">
           <img
-            src="./img/GLOT Logo White.png"
+            src={LogoWhite}
             alt="Ilustración de juego de idiomas"
             className="rounded-xl shadow-2xl"
           />
