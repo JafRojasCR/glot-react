@@ -2,7 +2,15 @@
 import React from "react";
 import Logo from "./img/GLOT Logo.png";
 import LogoWhite from "./img/GLOT Logo White.png";
-function Inicio({ isLoggedIn, onLogout }) {
+
+function Inicio({ isLoggedIn, onLogout, irAIdiomas }) {
+  
+  function handleLogoutClick(e) {
+    e?.preventDefault?.();
+    localStorage.clear();
+    if (onLogout) onLogout();
+  }
+
   return (
     <div className="bg-gray-50 text-gray-800 comfortaa min-h-screen">
       <nav className="flex items-center justify-between px-6 py-4 border-b w-full">
@@ -11,28 +19,28 @@ function Inicio({ isLoggedIn, onLogout }) {
         </div>
         <div className="flex space-x-8 text-lg">
           <a
-            href="#"
+            
             className="comfortaa text-green-400 font-bold transition duration-200 hover:text-blue-400 hover:scale-110"
           >
             Inicio
           </a>
           <a
-            href="languages.html"
+            onClick={irAIdiomas}
             className="comfortaa text-black transition duration-200 hover:text-green-400 hover:scale-110"
           >
             Aprender
           </a>
           <a
-            href="profile.html"
+            
             className="comfortaa text-black transition duration-200 hover:text-green-400 hover:scale-110"
           >
             Mi Aprendizaje
           </a>
           {isLoggedIn && (
             <a
-              href="#"
+
               className="comfortaa text-black transition duration-200 hover:text-red-400 hover:scale-110"
-              onClick={onLogout}
+              onClick={handleLogoutClick}
             >
               Salir
             </a>
@@ -51,7 +59,7 @@ function Inicio({ isLoggedIn, onLogout }) {
             propios desafíos.
           </p>
           <a
-            href="login.html"
+            onClick={irAIdiomas}
             className="bg-blue-400 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transition duration-300"
           >
             Empieza a Jugar Ahora
@@ -115,12 +123,7 @@ function Inicio({ isLoggedIn, onLogout }) {
           No esperes más para dominar un nuevo idioma de la manera más
           divertida.
         </p>
-        <a
-          href="register.html"
-          className="bg-green-400 hover:bg-green-500 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transition duration-300"
-        >
-          Regístrate y Empieza
-        </a>
+    
       </section>
 
       <footer className="bg-gray-800 text-gray-300 text-center py-6 px-4 comfortaa">

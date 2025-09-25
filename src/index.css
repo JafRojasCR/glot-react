@@ -6,3 +6,8 @@
   body {
     font-family: theme('fontFamily.sans');
   }
+
+  /* Utilidad para la clase .comfortaa usada en los componentes */
+  .comfortaa {
+    font-family: 'Comfortaa', cursive;
+  }

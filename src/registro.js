@@ -1,71 +1,41 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import RegisterForm from "./components/RegisterForm";
+import LoadingOverlay from "./components/LoadingOverlay";
 
-function Registro(props) {
-  const [nombre, setNombre] = useState("");
-  const [email, setEmail] = useState("");
-  const [clave, setClave] = useState("");
+function Registro({ onSwitchToLogin, onGoHome }) {
+  const [loading, setLoading] = useState(false);
 
-  const manejarRegistro = async (e) => {
-    e.preventDefault();
-    const datos = { username: nombre, email: email, clave: clave };
+  const handleSubmit = useCallback(async ({ username, email, password }) => {
+    // Envía al backend y, si va bien, muestra pantalla de carga falsa
     try {
       const resp = await fetch("http://localhost:3060/api/usuarios", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(datos),
+        body: JSON.stringify({ username, email, clave: password }),
       });
       const resultado = await resp.json();
-      if (resp.ok) {
-        alert("Usuario registrado con éxito. Ahora puede iniciar sesión.");
-        props.onSwitchToLogin(); // vuelve a la pantalla de login para que inicie sesión
-      } else {
-        // El backend puede devolver error 400 si el email ya existe, etc.
+      if (!resp.ok) {
         alert("Error al registrar: " + (resultado.error || "Datos inválidos"));
+        return;
       }
-    } catch (error) {
-      console.error("Error de conexión:", error);
+      // OK
+      setLoading(true);
+    } catch (err) {
+      console.error(err);
       alert("No se pudo registrar. Intente más tarde.");
     }
-  };
+  }, []);
+
+  const handleContinue = useCallback(() => {
+    setLoading(false);
+    onSwitchToLogin?.();
+  }, [onSwitchToLogin]);
 
   return (
-    <form onSubmit={manejarRegistro}>
-      <h2>Crear Cuenta</h2>
-      <div>
-        <label>Nombre completo:</label>
-        <br />
-        <input
-          type="text"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Email:</label>
-        <br />
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Contraseña:</label>
-        <br />
-        <input
-          type="password"
-          value={clave}
-          onChange={(e) => setClave(e.target.value)}
-          required
-        />
-      </div>
-      <button type="submit">Registrarse</button>
-      <button type="button" onClick={props.onSwitchToLogin}>
-        Ir a Iniciar Sesión
-      </button>
-    </form>
+    <div className="bg-gray-50 text-gray-800 comfortaa min-h-screen flex items-center justify-center">
+      <RegisterForm onSubmit={handleSubmit} onGoLogin={onSwitchToLogin} onGoHome={onGoHome} />
+      <LoadingOverlay open={loading} onContinue={handleContinue} />
+    </div>
   );
 }
 

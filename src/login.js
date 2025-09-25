@@ -23,6 +23,29 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
       if (resp.ok) {
         const tokenRecibido = resultado.token;
         localStorage.setItem('token', tokenRecibido);
+        // Decodifica el token para guardar datos de usuario en localStorage (datosToken y usuario)
+        const parseJwt = (token) => {
+          try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(
+              atob(base64)
+                .split('')
+                .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+                .join('')
+            );
+            return JSON.parse(jsonPayload);
+          } catch (e) {
+            return null;
+          }
+        };
+
+        const datosToken = parseJwt(tokenRecibido);
+        if (datosToken) {
+          try { localStorage.setItem('datosToken', JSON.stringify(datosToken)); } catch {}
+          const username = datosToken.username || datosToken.user || datosToken.email || datosToken.name;
+          if (username) localStorage.setItem('usuario', username);
+        }
         if (onLoginSuccess) onLoginSuccess(tokenRecibido);
       } else {
         setMensaje(resultado.error || 'Usuario o contraseña incorrectos.');
