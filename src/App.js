@@ -7,6 +7,7 @@ import Lecciones from './lecciones';
 import Memory from './memory';
 import Fill from './fill';
 import Match from './match';
+import Profile from './profile';
 
 function App() {
   const [vistaActual, setVistaActual] = useState('login');
@@ -35,6 +36,7 @@ function App() {
   const irAMemoria = () => setVistaActual('memoria');
   const irARellenar = () => setVistaActual('rellenar');
   const irAAsociar = () => setVistaActual('asociar');
+  const irAPerfil = () => setVistaActual('perfil');
   const irAInicio = () => setVistaActual('inicio');
 
   // Cerrar sesión
@@ -56,13 +58,13 @@ function App() {
         // Si hay token (usuario autenticado), mostrar la interfaz principal
         <>
           {vistaActual === 'inicio' && 
-            <Inicio isLoggedIn={!!token} onLogout={handleLogout} irAIdiomas={irAIdiomas} />
+            <Inicio isLoggedIn={!!token} onLogout={handleLogout} irAIdiomas={irAIdiomas} onGoPerfil={irAPerfil} />
           }
           {vistaActual === 'idiomas' && 
             <Idiomas
               onGoHome={irAInicio}
               onGoAprender={irAIdiomas}
-              onGoPerfil={irAInicio}
+              onGoPerfil={irAPerfil}
               onOpenLessons={() => irALecciones()}
               onRequireLogin={handleRequireLogin}
               onLogout={handleLogout}
@@ -73,7 +75,7 @@ function App() {
               onBack={irAIdiomas}
               onGoHome={irAInicio}
               onGoAprender={irAIdiomas}
-              onGoPerfil={irAInicio}
+              onGoPerfil={irAPerfil}
               onRequireLogin={handleRequireLogin}
               onLogout={handleLogout}
               onOpenGame={({ tipo }) => {
@@ -81,6 +83,15 @@ function App() {
                 else if (tipo === 'Rellenar') irARellenar();
                 else if (tipo === 'Asociar') irAAsociar();
               }}
+            />
+          )}
+          {vistaActual === 'perfil' && (
+            <Profile
+              onGoHome={irAInicio}
+              onGoAprender={irAIdiomas}
+              onGoPerfil={irAPerfil}
+              onRequireLogin={handleRequireLogin}
+              onLogout={handleLogout}
             />
           )}
           {vistaActual === 'memoria' && (

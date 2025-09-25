@@ -3,7 +3,7 @@ import React from "react";
 import Logo from "./img/GLOT Logo.png";
 import LogoWhite from "./img/GLOT Logo White.png";
 
-function Inicio({ isLoggedIn, onLogout, irAIdiomas }) {
+function Inicio({ isLoggedIn, onLogout, irAIdiomas, onGoPerfil }) {
   
   function handleLogoutClick(e) {
     e?.preventDefault?.();
@@ -30,12 +30,7 @@ function Inicio({ isLoggedIn, onLogout, irAIdiomas }) {
           >
             Aprender
           </a>
-          <a
-            
-            className="comfortaa text-black transition duration-200 hover:text-green-400 hover:scale-110"
-          >
-            Mi Aprendizaje
-          </a>
+           <button onClick={onGoPerfil} className="comfortaa text-black transition duration-200 hover:text-green-400 hover:scale-110">Mi Aprendizaje</button>
           {isLoggedIn && (
             <a
 
